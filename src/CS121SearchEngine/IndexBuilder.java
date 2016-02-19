@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,97 +14,253 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 
+public class IndexBuilder {
+	// Parameters for Debug mode (limit number of pages and word per page)
+	private static boolean DEBUG = false;
+	private static int DEBUG_PAGE_AMOUNT = 200;
+	private static int DEBUG_WORDS_PER_PAGE_AMOUNT = 1000; //Integer.MAX_VALUE;
 
-public class IndexBuilder 
-{
-	//Pre-compile Regex for small speed up
+	// Pre-compile Regex for small speed up
 	private final static Pattern singleQoute = Pattern.compile("\'|`");
-	
-	//Pre-compile Regex for small speed up
-	private final static Pattern replaceRegexPattern = Pattern.compile("[^A-Za-z0-9]+");
-	
-	//Set of words to remove from BOW
-	private static HashSet<String> stopwords = new HashSet<String>();
-	
-	//These three structures are collectively our index 
-	private static HashMap< String, Integer > term2termid = new HashMap<String, Integer>();
-	private static HashMap< Integer, HashSet < Integer > > docid2termlist = new HashMap<Integer, HashSet<Integer>>();
-	private static HashMap< Integer, String > term2idterm = new HashMap< Integer, String >();
-	
-	private static int currentTermId = 0;
-	
-	public static void main(String args[])
-	{
-		makeIndex();
-		writeIndexToDisk();
-	}
-	
-	public static void writeIndexToDisk()
-	{
-		try{
-		   
-			FileOutputStream fout = new FileOutputStream("data/index.ser");
-			ObjectOutputStream oos = new ObjectOutputStream(fout);   
-			oos.writeObject(term2termid);
-			oos.writeObject(docid2termlist);
-			oos.writeObject(term2idterm);
-			oos.close();
-			System.out.println("Done");
-		   
-	   }catch(Exception ex){
-		   ex.printStackTrace();
-	   }
-	 
-	}
-	
-	public static void makeIndex()
-	{		
-		try {
-			//Create set of stop words from file "stopwords"
-			Scanner in = new Scanner(new File("stopwords"));
-		
-			while(in.hasNext())
-			{
-				stopwords.add(singleQoute.matcher(in.nextLine().trim().toLowerCase()).replaceAll(""));
-			}
-			stopwords.add("");
-			in.close();	
-			
-			PageFetcher myPageFetcher = new PageFetcher(0,100);
 
-			for(Document currentDoc = myPageFetcher.getNext();currentDoc != null; currentDoc = myPageFetcher.getNext())
+	// Pre-compile Regex for small speed up
+	private final static Pattern replaceRegexPattern = Pattern.compile("[^A-Za-z0-9]+");
+
+	// Set of words to remove from BOW
+	private static HashSet<String> stopwords = new HashSet<String>();
+
+	//#### Start These structures will be collectively or individually used in(or as) part of our index
+	//a map from term to term id
+	private static HashMap<String, Integer> termToTermIDMap = new HashMap<String, Integer>();
+	//a map from term id to term 
+	private static HashMap<Integer, String> termIDToTermMap = new HashMap<Integer, String>();
+	//a map for document id to a map from term Id to term count in that document
+	private static HashMap<Integer, HashMap<Integer, Integer>> docIDToTermIDToTermCountMap = new HashMap<Integer, HashMap<Integer, Integer>>();
+	//a map for term id to a map from document Id to term count in that document
+	private static HashMap<Integer, HashMap<Integer, Integer>> termIDToDocIDToTermCountMap = new HashMap<Integer, HashMap<Integer, Integer>>();
+	//a map for term id to a map from document Id to term Frequency Normalized to add to ~1 in that document
+	private static HashMap<Integer, HashMap<Integer, Double>> termIDToDocIDToTFNormilizedMap = new HashMap<Integer, HashMap<Integer, Double>>();
+	//a map for term id to a map from document Id to a logarithmic Weighted term Frequency in that document
+	private static HashMap<Integer, HashMap<Integer, Double>> termIDToDocIDToWTFMap = new HashMap<Integer, HashMap<Integer, Double>>();
+	//a map from term id to it's inverse document frequency
+	private static HashMap<Integer, Double> termIDToIdfMap = new HashMap<Integer, Double>();
+	//### End
+	
+	//used to keep track of next TermId to be assigned
+	private static int currentTermId = 0;
+	private final static int COPUS_SIZE = (DEBUG ? DEBUG_PAGE_AMOUNT: PageFetcher.getCorpusSize());
+	
+	public static void main(String args[]) 
+	{
+		long startTime  = System.currentTimeMillis();
+		System.out.println("###Calling Make Index Function###\n");
+		makeIndex();
+		double makeIndexTime = (System.currentTimeMillis() - startTime)/1000.0;
+		System.out.println("###Making Index Finished in " + (int)( makeIndexTime/60/60 )+ ":" + (int)(makeIndexTime/60)%60 + ":" + ((int)makeIndexTime%60%60)+ " hours:minutes:seconds");
+		
+		long startWrieTime  = System.currentTimeMillis();
+		System.out.println("###Calling Write Index to disk Function###");
+		writeIndexToDisk();
+		double writeTime = (System.currentTimeMillis() - startWrieTime)/1000.0;
+		System.out.println("###Writing to Disk Finished in " + (int)( writeTime/60/60 )+ ":" + (int)(writeTime/60)%60 + ":" + ((int)writeTime%60%60)+ " hours:minutes:seconds");
+		
+		
+		try {
+			PrintWriter out;
+			out = new PrintWriter("answers.txt");
+			out.println("1. There were " + COPUS_SIZE + " documents used to create the index." );
+			out.println("2. There were " + termToTermIDMap.size() + " words." );
+			out.println("3.Sample Index: \n To add later in PDF \n\n\n\n\n\n" );
+			File file =new File(DEBUG?"data/indexDebug.ser":"data/index.ser");
+			if(file.exists()){
+				double kilobytes = (file.length() / 1024);
+				out.println("4. The index file is " + kilobytes+ " kilobytes." );
+			}
+			out.print("5.The index file is created in " + (int)( makeIndexTime/60/60 )+ ":" + (int)(makeIndexTime/60)%60 + ":" + ((int)makeIndexTime%60%60)+ " hours:minutes:seconds " );
+			out.print(" and written to disk in in " + (int)( writeTime/60/60 )+ ":" + (int)(writeTime/60)%60 + ":" + ((int)writeTime%60%60)+ " hours:minutes:seconds ");
+			int total = (int)(makeIndexTime + writeTime);
+			out.print(" total time is " + (int)( total/60/60 )+ ":" + (int)(total/60)%60 + ":" + ((int)total%60%60)+ " hours:minutes:seconds ");
+			
+			out.close();
+		} catch (FileNotFoundException e) 
+		{
+			
+			e.printStackTrace();
+		}
+		
+	}
+
+	/**
+	 * 	
+	 * Serializes and writes the parts on the index to disk.
+	 * 
+	 */
+	public static void writeIndexToDisk() 
+	{
+		try
+		{
+			FileOutputStream fout;
+			if (DEBUG)//add debug flag to output file name if in debug mode
+				fout = new FileOutputStream("data/indexDebug.ser");
+			else
+				fout = new FileOutputStream("data/index.ser");
+			
+			ObjectOutputStream oos = new ObjectOutputStream(fout);
+			System.out.println("Writing termToTermIDMap to Disk..");
+			oos.writeObject(termToTermIDMap);
+			
+			System.out.println("Writing termIDToTermMap to Disk..");
+			oos.writeObject(termIDToTermMap);
+			
+			System.out.println("Writing docIDToTermIDToTermCountMap to Disk..");
+			oos.writeObject(docIDToTermIDToTermCountMap);
+			
+			System.out.println("Writing termIDToDocIDToTermCountMap to Disk..");
+			oos.writeObject(termIDToDocIDToTermCountMap);
+			
+			System.out.println("Writing termIDToDocIDToTFNormilizedMap to Disk..");
+			oos.writeObject(termIDToDocIDToTFNormilizedMap);
+			
+			System.out.println("Writing termIDToDocIDToWTFMap to Disk..");
+			oos.writeObject(termIDToDocIDToWTFMap);
+			
+			System.out.println("Writing termIDToIdfMap to Disk..");
+			oos.writeObject(termIDToIdfMap);
+			
+			oos.close();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * 
+	 * This is the main function that builds the index structures. 
+	 * 
+	 */
+	public static void makeIndex() {
+		try {
+			
+			System.out.println("Populating Stop words...\n");
+			//populate stop words to use later in tokenizer
+			populateStopWords();
+
+			System.out.println("Querying the Database...\n");
+			//create structure used to get documents from database
+			PageFetcher myPageFetcher;
+			if (DEBUG)//limit the number of documents used in debug mode
+				myPageFetcher = new PageFetcher(0, DEBUG_PAGE_AMOUNT);
+			else
+				myPageFetcher = new PageFetcher();
+
+			//create structure to track number of terms per document
+			HashMap<Integer, Integer> docIDToTermCountMap = new HashMap<Integer, Integer>();
+			
+			System.out.println("Lopping through the Corpus...\n");
+			//loop through each document
+			for (Document currentDoc = myPageFetcher.getNext(); currentDoc != null; currentDoc = myPageFetcher.getNext()) 
 			{
-				docid2termlist.put(currentDoc.getDocId(), new HashSet< Integer >());
-				HashSet< Integer > adjacencyList = docid2termlist.get(currentDoc.getDocId());
-				for(String term : tokenizeText(currentDoc.getBody()) )
-				{
+				//create a new map in docIDToTermIDToTermCountMap
+				docIDToTermIDToTermCountMap.put(currentDoc.getDocId(), new HashMap<Integer, Integer>());
+				//get reference to that map
+				HashMap<Integer, Integer> currentTermIDToTermCountMap = docIDToTermIDToTermCountMap.get(currentDoc.getDocId());
+
+				//tokenize document into terms
+				ArrayList<String> termsInCurrentDoc = tokenizeText(currentDoc.getBody());
+				
+				//store number of tokens in document
+				docIDToTermCountMap.put(currentDoc.getDocId(), termsInCurrentDoc.size());
+				
+				//loop through all terms
+				for (String term : termsInCurrentDoc) 
+				{		
+					//for each term update necessary elements for index
 					int termkey;
-					if(!term2termid.containsKey(term))
+					
+					if (!termToTermIDMap.containsKey(term)) 
 					{
-						term2termid.put(term, ++currentTermId);						
+						termToTermIDMap.put(term, ++currentTermId);
 						termkey = currentTermId;
-						term2idterm.put(termkey, term);
-					}
-					else
+						termIDToTermMap.put(termkey, term);
+						termIDToDocIDToTermCountMap.put(termkey, new HashMap<Integer, Integer>());
+					} 
+					else 
 					{
-						termkey = term2termid.get(term);
+						termkey = termToTermIDMap.get(term);
 					}
-					adjacencyList.add(termkey);					
+
+					HashMap<Integer, Integer> currentDocIDToTermCountMap = termIDToDocIDToTermCountMap.get(termkey);
+					currentDocIDToTermCountMap.put(currentDoc.getDocId(), 1 + (currentDocIDToTermCountMap.containsKey(currentDoc.getDocId())
+							? currentDocIDToTermCountMap.get(currentDoc.getDocId()) : 0 ));
+
+					currentTermIDToTermCountMap.put(termkey, 1 + (currentTermIDToTermCountMap.containsKey(termkey) 
+							? currentTermIDToTermCountMap.get(termkey) : 0 ));
 				}
 			}
+
+			System.out.println("termToTermIDMap Complete...");
+			System.out.println("termIDToTermMap Complete...");
+			System.out.println("docIDToTermIDToTermCountMap Complete...");
+			System.out.println("termIDToDocIDToTermCountMap Complete...\n");
 			
-		} catch (FileNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Lopping through the terms...\n");
+			//now that we have all the terms loop through them and update the necessary elements 
+			for (Integer termId : termIDToDocIDToTermCountMap.keySet()) 
+			{
+				termIDToDocIDToTFNormilizedMap.put(termId, new HashMap<Integer, Double>());
+				termIDToDocIDToWTFMap.put(termId, new HashMap<Integer, Double>());
+				termIDToIdfMap.put(termId, Math.log10((double)COPUS_SIZE/(double)termIDToDocIDToTermCountMap.get(termId).size() ));
+				
+				for (Integer docId : termIDToDocIDToTermCountMap.get(termId).keySet()) 
+				{
+					termIDToDocIDToTFNormilizedMap.get(termId).put(docId, termIDToDocIDToTermCountMap.get(termId).get(docId).doubleValue()
+									/ docIDToTermCountMap.get(docId).doubleValue());
+					
+					termIDToDocIDToWTFMap.get(termId).put(docId, 1 + Math.log10(termIDToDocIDToTermCountMap.get(termId).get(docId)));
+				}
+			}
+			System.out.println("termIDToDocIDToTFNormilizedMap Complete...");
+			System.out.println("termIDToDocIDToWTFMap Complete...");
+			System.out.println("termIDToIdfMap Complete...\n");
+
+		} catch (FileNotFoundException | SQLException e)
+		{
+			
 			e.printStackTrace();
 		}
 	}
 
-	public static HashSet<String> tokenizeText(String input) 
+	private static void populateStopWords() throws FileNotFoundException 
 	{
+		// Create set of stop words from file "stopwords"
+		Scanner in = new Scanner(new File("stopwords"));
+
+		while (in.hasNext()) 
+		{
+			stopwords.add(singleQoute.matcher(in.nextLine().trim().toLowerCase()).replaceAll(""));
+		}
+		stopwords.add("");
+		in.close();
+	}
+
+	public static ArrayList<String> tokenizeText(String input) 
+	{
+		// remove all single quotes
 		input = singleQoute.matcher(input).replaceAll("").trim();
-		input = replaceRegexPattern.matcher(input.toLowerCase()).replaceAll(" ").trim();//Change case to lower and remove all non word charters
-		HashSet<String> tokens = new HashSet<String>(Arrays.asList(input.split(" ")));//Create new Array list to hold tokens
+
+		// Change case to lower and replace all non word charters with space
+		input = replaceRegexPattern.matcher(input.toLowerCase()).replaceAll(" ").trim();
+
+		// Create new Array list to hold tokens
+		ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(input.split(" ")));
+
+		// remove stopwords
 		tokens.removeAll(stopwords);
+
+		if (DEBUG)// limit output in debug mode
+			return new ArrayList<String>(tokens.subList(0, Math.min(tokens.size(), DEBUG_WORDS_PER_PAGE_AMOUNT)));
 		return tokens;
 	}
 }

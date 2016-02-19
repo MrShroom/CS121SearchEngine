@@ -75,5 +75,36 @@ public class PageFetcher {
         }
         return out;
 	}
+	
+	public static int getCorpusSize()
+	{
+		Connection dBConnection = null;
+		Statement st = null;
+		ResultSet rs =null;
+		int out = 0;
+		
+        try {
+        	dBConnection = DriverManager.getConnection(DB_URL, DB_USER, DU_PASSWORD);
+        	String statement = " select COUNT( * ) from  Visited_URL;" ;
+        	st = dBConnection.createStatement();
+			rs = st.executeQuery(statement);
+			if (rs.next())
+				out = rs.getInt(1);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally
+        {
+			try {
+				if(dBConnection != null )dBConnection.close();
+				if(st != null) st.close();
+				if(rs != null) rs.close();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+        }
+        return out;
+	}
 
 }
