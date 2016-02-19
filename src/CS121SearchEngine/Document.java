@@ -1,5 +1,11 @@
 package CS121SearchEngine;
 
+/**
+ * This is simple class to represent Page from  Visited_URL table in Database
+ * 
+ * @author Shaun
+ *
+ */
 public class Document 
 {
 	private Integer docId;

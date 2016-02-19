@@ -60,7 +60,7 @@ public class PageFetcher {
 			if (rs.next())
 				out = rs.getInt(1);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}finally
         {
@@ -69,7 +69,7 @@ public class PageFetcher {
 				if(st != null) st.close();
 				if(rs != null) rs.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
         }

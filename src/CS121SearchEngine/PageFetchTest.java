@@ -8,7 +8,7 @@ public class PageFetchTest {
 	{
 		try {
 			
-			PageFetcher fecther = new PageFetcher();
+			PageFetcher fecther = new PageFetcher(0,1);
 			int topId = PageFetcher.getLargestID();
 			System.out.println(topId);
 			System.out.println(fecther.getNext());
