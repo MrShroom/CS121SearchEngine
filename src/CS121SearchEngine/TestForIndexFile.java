@@ -19,11 +19,11 @@ public class TestForIndexFile {
 		//a map for term id to a map from document Id to term count in that document
 		 HashMap<Integer, HashMap<Integer, Integer>> termIDToDocIDToTermCountMap;
 		//a map for term id to a map from document Id to term Frequency Normalized to add to ~1 in that document
-		 HashMap<Integer, HashMap<Integer, Double>> termIDToDocIDToTFNormilizedMap;
+		HashMap<Integer, HashMap<Integer, Float>> termIDToDocIDToTFNormilizedMap;
 		//a map for term id to a map from document Id to a logarithmic Weighted term Frequency in that document
-		 HashMap<Integer, HashMap<Integer, Double>> termIDToDocIDToWTFMap;
+		 HashMap<Integer, HashMap<Integer, Float>> termIDToDocIDToWTFMap;
 		//a map from term id to it's inverse document frequency
-		 HashMap<Integer, Double> termIDToIdfMap ;
+		 HashMap<Integer, Float> termIDToIdfMap ;
 		//### End
 		try{
 
@@ -33,9 +33,9 @@ public class TestForIndexFile {
 			termIDToTermMap =(HashMap<Integer, String>)ois.readObject();
 			docIDToTermIDToTermCountMap = ( HashMap<Integer, HashMap<Integer, Integer>>)ois.readObject();
 			termIDToDocIDToTermCountMap = ( HashMap<Integer, HashMap<Integer, Integer>>)ois.readObject();
-			termIDToDocIDToTFNormilizedMap = ( HashMap<Integer, HashMap<Integer, Double>> )ois.readObject();
-			termIDToDocIDToWTFMap = (  HashMap<Integer, HashMap<Integer, Double>>)ois.readObject();
-			termIDToIdfMap = (HashMap<Integer, Double>) ois.readObject();
+			termIDToDocIDToTFNormilizedMap = ( HashMap<Integer, HashMap<Integer, Float>> )ois.readObject();
+			termIDToDocIDToWTFMap = (  HashMap<Integer, HashMap<Integer, Float>>)ois.readObject();
+			termIDToIdfMap = (HashMap<Integer, Float>) ois.readObject();
 			ois.close();
 
 			System.out.println("termToTermIDMap (map from term to term id) : \n" 

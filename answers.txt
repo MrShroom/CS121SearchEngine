@@ -1,5 +1,5 @@
-1. There were 95225 documents used to create the index.
-2. There were 388902 words.
+1. There were 148311 documents used to create the index.
+2. There were 526473 words.
 3.Sample Index: 
  To add later in PDF 
 
@@ -8,5 +8,5 @@
 
 
 
-4. The index file is 885003.0 kilobytes.
-5.The index file is created in 0:3:59 hours:minutes:seconds  and written to disk in in 0:9:32 hours:minutes:seconds  total time is 0:13:31 hours:minutes:seconds 
+4. The index file is 1213107.0 kilobytes.
+5.The index file is created in 0:8:20 hours:minutes:seconds  and written to disk in in 0:17:28 hours:minutes:seconds  total time is 0:25:49 hours:minutes:seconds 
