@@ -1,9 +1,13 @@
+/**
+ * Shaun McThomas 13828643
+ * Sean Letzer 24073320
+ * Sean King 82425468 
+ */
 package CS121SearchEngine;
 
 /**
  * This is simple class to represent Page from  Visited_URL table in Database
  * 
- * @author Shaun
  *
  */
 public class Document 

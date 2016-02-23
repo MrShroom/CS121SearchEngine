@@ -9,4 +9,4 @@
 
 
 4. The index file is 1213107.0 kilobytes.
-5.The index file is created in 0:8:20 hours:minutes:seconds  and written to disk in in 0:17:28 hours:minutes:seconds  total time is 0:25:49 hours:minutes:seconds 
+5.The index file is created in 0:7:56 hours:minutes:seconds  and written to disk in in 0:16:49 hours:minutes:seconds  total time is 0:24:46 hours:minutes:seconds 

@@ -1,3 +1,8 @@
+/**
+ * Shaun McThomas 13828643
+ * Sean Letzer 24073320
+ * Sean King 82425468 
+ */
 package CS121SearchEngine;
 
 import java.io.File;
@@ -17,11 +22,12 @@ import java.util.regex.Pattern;
 public class IndexBuilder {
 	// Parameters for Debug mode (limit number of pages and word per page)
 	private final static boolean DEBUG = false;
-	private final static int DEBUG_PAGE_AMOUNT = 200;
-	private final static int DEBUG_WORDS_PER_PAGE_AMOUNT = 1000; //Integer.MAX_VALUE;
-
-	//Number of documents to fetch at a time, smaller batches help keep run time memory usage down.However, larger batch go sightly faster. 
-	private final static int BATCH_SIZE = 1000; 
+	private final static int DEBUG_PAGE_AMOUNT = 5;
+	private final static int DEBUG_WORDS_PER_PAGE_AMOUNT = 10; //Integer.MAX_VALUE;
+	
+	//Be sure that if DEBUG_PAGE_AMOUNT is larger than BATCH_SIZE, then BATCH_SIZE is a multiple of DEBUG_PAGE_AMOUNT
+	//Number of documents to fetch at a time, smaller batches help keep run time memory usage down. However, larger batch go sightly faster. 
+	private final static int BATCH_SIZE = (DEBUG ? Math.min(1000,DEBUG_PAGE_AMOUNT) : 1000); 
 	
 	// Pre-compile Regex for small speed up
 	private final static Pattern singleQoute = Pattern.compile("\'|`");
@@ -187,7 +193,7 @@ public class IndexBuilder {
 			//create structure to track number of terms per document
 			HashMap<Integer, Integer> docIDToTermCountMap = new HashMap<Integer, Integer>(COPUS_SIZE);
 			
-			int numberOfBatches = (COPUS_SIZE/BATCH_SIZE) + 1;
+			int numberOfBatches = (COPUS_SIZE%BATCH_SIZE == 0 ? COPUS_SIZE/BATCH_SIZE : COPUS_SIZE/BATCH_SIZE + 1);
 			System.out.println("There are " + numberOfBatches + " batchs to loop through...\n");
 			
 			for(int i = 0; i < numberOfBatches; i++ )
@@ -196,9 +202,9 @@ public class IndexBuilder {
 				//create structure used to get documents from database
 				PageFetcherForIndexBuilder myPageFetcher;
 				
-				// last batch might miss a few, lets make sure that it doesn't(we don't care if we miss some in debug mode)
+				// last batch might miss a few, lets make sure that it doesn't(we don't care if in debug mode as long as we're close)
 				if (!DEBUG && i == numberOfBatches-1)
-					myPageFetcher = new PageFetcherForIndexBuilder(i*BATCH_SIZE, LARGEST_DOC_ID);	
+					myPageFetcher = new PageFetcherForIndexBuilder(i*BATCH_SIZE, LARGEST_DOC_ID);
 				else
 					myPageFetcher = new PageFetcherForIndexBuilder(i*BATCH_SIZE,(i+1)*BATCH_SIZE);	
 				
@@ -263,7 +269,8 @@ public class IndexBuilder {
 			{
 				termIDToDocIDToTFNormilizedMap.put(termId, new HashMap<Integer, Float>());
 				termIDToDocIDToWTFMap.put(termId, new HashMap<Integer, Float>());
-				termIDToIdfMap.put(termId, (float)Math.log10((float)COPUS_SIZE/(float)numberOfTerms));
+				
+				termIDToIdfMap.put(termId, (float)Math.log10((float)COPUS_SIZE/(float)termIDToDocIDToTermCountMap.get(termId).size()));
 				
 				for (Integer docId : termIDToDocIDToTermCountMap.get(termId).keySet()) 
 				{
