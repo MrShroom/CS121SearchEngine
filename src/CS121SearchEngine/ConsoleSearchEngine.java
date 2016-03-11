@@ -8,20 +8,13 @@ import java.util.TreeMap;
 public class ConsoleSearchEngine {
 
 	public static SearchLogicClass mySearch = new SearchLogicClass();
-	public static PageFetcherForSreachEngine fetcher;
+	public static PageFetcherForSearchEngine fetcher;
 	public static Scanner input = new Scanner(System.in);
 	
 	
 	public static void main(String[] args) 
 	{
 		String query = "";
-		
-		try {
-			fetcher = new PageFetcherForSreachEngine();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		while(true)
 		{
@@ -36,7 +29,9 @@ public class ConsoleSearchEngine {
 			{
 				System.out.println(itr.getKey() + " --> score: " + itr.getValue());
 				try {
+					fetcher = new PageFetcherForSearchEngine();
 					System.out.println(fetcher.getDoc(itr.getKey()));
+					fetcher.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -48,15 +43,9 @@ public class ConsoleSearchEngine {
 			}
 			
 		}
-		try {
-			fetcher.close();
-			input.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
-
+		input.close();
+		
 	}
 
 }

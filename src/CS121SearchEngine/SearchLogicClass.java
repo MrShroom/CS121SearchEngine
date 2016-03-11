@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,12 +47,12 @@ public class SearchLogicClass
 	{
 		try {
 
-			FileInputStream fin = new FileInputStream("data/indexScoreOnly.ser");
+			InputStream fin = this.getClass().getResourceAsStream("/data/indexScoreOnly.ser");
 			ObjectInputStream ois = new ObjectInputStream(fin);
 			termIdToDocIdtoScoreMap = (HashMap<Integer, HashMap<Integer, Float>>) ois.readObject();
 			ois.close();
 			
-			fin = new FileInputStream("data/indexTermMapOnly.ser");
+			fin = this.getClass().getResourceAsStream("/data/indexTermMapOnly.ser");
 			ois = new ObjectInputStream(fin);
 			termToTermIDMap = (HashMap<String, Integer>) ois.readObject();
 			ois.close();
@@ -122,10 +123,10 @@ public class SearchLogicClass
 
 	}
 	
-	private static void populateStopWords() throws FileNotFoundException 
+	private  void populateStopWords() throws FileNotFoundException 
 	{
 		// Create set of stop words from file "stopwords"
-		Scanner in = new Scanner(new File("stopwords"));
+		Scanner in = new Scanner(this.getClass().getResourceAsStream("/stopwords"));
 
 		while (in.hasNext()) 
 		{
