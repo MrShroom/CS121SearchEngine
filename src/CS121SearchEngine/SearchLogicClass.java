@@ -78,6 +78,10 @@ public class SearchLogicClass
 		
 		for( Integer termId : termIdsInQuery )
 		{
+			if(termIdToDocIdtoScoreMap.get(termId) == null)
+			{
+				continue;
+			}	
 			
 			for( Integer docID : termIdToDocIdtoScoreMap.get(termId).keySet())
 			{
