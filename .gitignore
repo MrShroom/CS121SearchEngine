@@ -1,4 +1,4 @@
-data/
+
 #################
 ## Eclipse
 #################
@@ -8,6 +8,7 @@ data/
 .metadata
 bin/
 tmp/
+data/
 *.tmp
 *.bak
 *.swp
@@ -29,6 +30,8 @@ local.properties
 # PDT-specific
 .buildpath
 
+# my large index files
+*.ser
 
 #################
 ## Visual Studio
