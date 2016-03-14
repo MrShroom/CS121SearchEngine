@@ -1,4 +1,4 @@
-package CS121SearchEngine;
+package indexCreation;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

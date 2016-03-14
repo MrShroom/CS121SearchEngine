@@ -3,13 +3,15 @@
  * Sean Letzer 24073320
  * Sean King 82425468 
  */
-package CS121SearchEngine;
+package indexCreation;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import CS121SearchEngine.Document;
 
 public class PageFetcherForIndexBuilder {
 	

@@ -3,7 +3,7 @@
  * Sean Letzer 24073320
  * Sean King 82425468 
  */
-package CS121SearchEngine;
+package testForVariousSearchEngineParts;
 
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;

@@ -3,7 +3,7 @@
  * Sean Letzer 24073320
  * Sean King 82425468 
  */
-package CS121SearchEngine;
+package indexCreation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+
+import CS121SearchEngine.Document;
 
 
 public class IndexBuilder {

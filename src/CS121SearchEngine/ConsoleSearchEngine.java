@@ -6,6 +6,8 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 public class ConsoleSearchEngine {
+	
+	private static final int NUMBER_OF_RESULTS =10;
 
 	public static SearchLogicClass mySearch = new SearchLogicClass();
 	public static PageFetcherForSearchEngine fetcher;
@@ -24,7 +26,7 @@ public class ConsoleSearchEngine {
 				break;
 			TreeMap <Integer,Float> results = mySearch.preformSearch(query);
 			
-			int k = (results.size() > 20 ? 20 : results.size());
+			int k = (results.size() > NUMBER_OF_RESULTS ? NUMBER_OF_RESULTS : results.size());
 			for(Map.Entry<Integer,Float> itr : results.entrySet() )
 			{
 				System.out.println(itr.getKey() + " --> score: " + itr.getValue());
