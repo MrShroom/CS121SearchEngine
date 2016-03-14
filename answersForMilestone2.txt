@@ -1,0 +1,116 @@
+1. Results for mondego : 
+	1: Index of /datasets/wikipedia-events  http://mondego.ics.uci.edu/datasets/wikipedia-events/?C=M%3BO%3DA
+
+	2: Index of /datasets/wikipedia-events  http://mondego.ics.uci.edu/datasets/wikipedia-events/?C=D%3BO%3DA
+
+	3: Index of /datasets/wikipedia-events  http://mondego.ics.uci.edu/datasets/wikipedia-events/?C=S%3BO%3DA
+
+	4: Index of /datasets/wikipedia-events  http://mondego.ics.uci.edu/datasets/wikipedia-events/?C=N%3BO%3DD
+
+	5: Index of /datasets/wikipedia-events  http://mondego.ics.uci.edu/datasets/wikipedia-events/
+
+2. Results for machine learning : 
+	1: UCI Machine Learning Group  http://mlearn.ics.uci.edu/
+
+	2: Courses | Center for Machine Learning and Intelligent Systems  http://cml.ics.uci.edu/courses/
+
+	3: SLI | Classes / Classes   http://sli.ics.uci.edu/Classes/Classes
+
+	4: AI/ML Seminar Series | Center for Machine Learning and Intelligent Systems | Page 6  http://cml.ics.uci.edu/aiml/page/6/
+
+	5: Interactive, fuzzy search for learning  http://jujube.ics.uci.edu/www/learning.html
+
+3. Results for software engineering : 
+	1: Software Engineering Principles  http://www.ics.uci.edu/~ziv/ooad/intro_to_se/tsld023.htm
+
+	2:  Object-Oriented Software EngineeringLecture 1   http://www.ics.uci.edu/~ziv/ooad/intro_to_se/index.htm
+
+	3: What is Software Engineering?  http://www.ics.uci.edu/~ziv/ooad/intro_to_se/tsld007.htm
+
+	4: Software Engineering Principles  http://www.ics.uci.edu/~ziv/ooad/intro_to_se/tsld022.htm
+
+	5: Software Engineering Vs. Programming  http://www.ics.uci.edu/~ziv/ooad/intro_to_se/tsld008.htm
+
+4. Results for security  : 
+	1: Swirl WebDAV Workspace 0.20 Reference Package swirl.workspace.security  http://drzaius.ics.uci.edu/~swirl/impromptu-0.20/xref-test/swirl/workspace/security/package-frame.html
+
+	2: 
+org.itr_rescue.dataGuard.encryption
+  http://www.ics.uci.edu/~projects/DataGuard/javadoc/org/itr_rescue/dataGuard/encryption/package-frame.html
+
+	3: 
+swirl.workspace.security Class Hierarchy (Swirl WebDAV Workspace 0.20 API)
+  http://drzaius.ics.uci.edu/~swirl/impromptu-0.20/apidocs/swirl/workspace/security/package-tree.html
+
+	4: Swirl WebDAV Workspace 0.20 Reference Package swirl.workspace.security  http://drzaius.ics.uci.edu/~swirl/impromptu-0.20/xref/swirl/workspace/security/package-frame.html
+
+	5: 
+      Security – Nomatic*IM
+      http://djp3-pc2.ics.uci.edu/LUCICodeRepository/nomaticIM/wiki/Security?version=2
+
+5. Results for student affairs : 
+	1: Contact Us |   http://honors.ics.uci.edu/contact-us
+
+	2: Computational Vision | ICS | UC Irvine  http://vision.ics.uci.edu/people.html
+
+	3: Donald Bren School of Information and Computer Sciences - Office of Student Affairs  http://www.ics.uci.edu/grad/index
+
+	4: Donald Bren School of Information and Computer Sciences - Office of Student Affairs  http://www.ics.uci.edu/grad/
+
+	5: Donald Bren School of Information and Computer Sciences - Office of Student Affairs  http://www.ics.uci.edu/grad/index.php
+
+6. Results for graduate courses : 
+	1: Navigation  http://www.ics.uci.edu/~rkwang/navigation.html
+
+	2: Dr. Rina Dechter @ UCI :: Courses  http://www.ics.uci.edu/~dechter/courses.html
+
+	3: Light Weight: LUCI: The Laboratory for Ubiquitous Computing and Interaction at UCI  http://luci.ics.uci.edu/lightweight/courses/graduate/index.html
+
+	4: Light Weight: LUCI: The Laboratory for Ubiquitous Computing and Interaction at UCI  http://luci.ics.uci.edu/lightweight/bioGrads/six/index.html
+
+	5: Light Weight: LUCI: The Laboratory for Ubiquitous Computing and Interaction at UCI  http://luci.ics.uci.edu/lightweight/bioGrads/ekabisch/index.html
+
+7. Results for informatics : 
+	1: Light Weight: LUCI: The Laboratory for Ubiquitous Computing and Interaction at UCI  http://luci.ics.uci.edu/lightweight/courses/index.html
+
+	2: Andr&eacute; van der Hoek's Teaching  http://www.ics.uci.edu/~andre/teaching.html
+
+	3: Social Code Group  http://www.ics.uci.edu/~wmt/socialCodeGroup/people.html
+
+	4: Doctoral Students  http://www.ics.uci.edu/~mmazmani/Site/Students.html
+
+	5: Xinning Gui  http://www.ics.uci.edu/~guix/
+
+8. Results for REST : 
+	1: ICS 184 / EECS 116 Summer 2006, Midterm Solutions  http://www.ics.uci.edu/~thornton/ics184/MidtermSolutions.html
+
+	2: Sequoia National Monument and the Kern Valley  http://www.ics.uci.edu/~eppstein/pix/kern/index.html
+
+	3: Notes on Scheme  http://www.ics.uci.edu/~kay/courses/141/schemenotes.html
+
+	4: UCI Machine Learning Repository: SPECTF Heart Data Set  http://archive.ics.uci.edu/ml/datasets/SPECTF+Heart
+
+	5: Orchard  http://www.ics.uci.edu/~eppstein/pix/ontheroad/BwilOrchard.html
+
+9. Results for computer games : 
+	1: IVECG &#8211; Center for Computer Games &amp; Virtual Worlds  http://cgvw.ics.uci.edu/
+
+	2: computer games &#8211; Center for Computer Games &amp; Virtual Worlds  http://cgvw.ics.uci.edu/tag/computer-games/
+
+	3: Human-Computer Interaction  http://www.ics.uci.edu/~kobsa/courses/ICS104/_notes/title.htm
+
+	4: Research &#8211; Center for Computer Games &amp; Virtual Worlds  http://cgvw.ics.uci.edu/tag/research/
+
+	5: Int. Computer Games Assoc.  http://fano.ics.uci.edu/cites/Organization/Int-Computer-Games-Assoc.html
+
+10. Results for information retrieval : 
+	1:   http://www.ics.uci.edu/~djp3/classes/2007_04_02_CS221/Lecture01/CS221Notes01.html/index.html
+
+	2: Version Graph Retrieval Requirements  http://www.ics.uci.edu/~ejw/authoring/www6/tsld030.htm
+
+	3: Informatics 141: Computer Science 121: Information Retrieval  http://www.ics.uci.edu/~djp3/classes/2014_01_INF141/tasks/task_08.html
+
+	4: Online Interactive Teamware Demo, Information  http://www.ics.uci.edu/~arcadia/Teamware/demo/info.html
+
+	5: Proc. 29th Symp. Theory of Computing  http://fano.ics.uci.edu/cites/Location/Proc-29th-Symp-Theory-of-Computing.html
+

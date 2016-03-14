@@ -1,3 +1,10 @@
+/**
+ * Shaun McThomas 13828643
+ * Sean Letzer 24073320
+ * Sean King 82425468 
+ * 
+ * This is used to create acttual index that will be used
+ */
 package indexCreation;
 
 import java.io.FileInputStream;
