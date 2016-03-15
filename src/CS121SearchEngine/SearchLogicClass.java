@@ -32,6 +32,8 @@ public class SearchLogicClass
 	
 	// Set of words to remove from BOW
 	private static HashSet<String> stopwords = new HashSet<String>();
+
+	private  HashSet<String> lastTokens = null;
 	
 	private static HashMap<Integer, HashMap<Integer, Float>> termIdToDocIdtoScoreMap;
 	private static HashMap<String, Integer> termToTermIDMap;
@@ -116,7 +118,8 @@ public class SearchLogicClass
 	    TreeMap<Integer,Float > sorted_map = new TreeMap<Integer,Float >(bvc);
 		
 	    HashSet<String> queryVector = tokenizeText(query);
-		ArrayList<Integer> termIdsInQuery = new  ArrayList<Integer>();
+	    lastTokens = queryVector;
+		ArrayList<Integer> termIdsInQuery = new  ArrayList<Integer>();		
 		
 		for(String term : queryVector)
 		{
@@ -206,4 +209,9 @@ public class SearchLogicClass
 
 		return tokens;
 	}
+
+	public HashSet<String> getLastTokens() {
+		return lastTokens;
+	}
+
 }

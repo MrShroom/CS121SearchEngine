@@ -80,10 +80,10 @@ public class CreateSimplerIndex {
 		for(Integer termId : termIDToTermMap.keySet())
 		{
 			finalIndextoExport.put(termId, new HashMap< Integer, Float >());
-			for(Integer docID : termIDToDocIDToTFNormilizedMap.get(termId).keySet())
+			for(Integer docID : termIDToDocIDToWTFMap.get(termId).keySet())
 			{
 				finalIndextoExport.get(termId).put(docID, 
-						termIDToDocIDToTFNormilizedMap.get(termId).get(docID) * termIDToIdfMap.get(termId));
+						termIDToDocIDToWTFMap.get(termId).get(docID) * termIDToIdfMap.get(termId));
 			}
 		}
 		
